@@ -35,11 +35,13 @@ defmodule Hound.RequestUtils do
         {[], ""}
     end
 
+    IO.puts("the params #{inspect params}, the options #{inspect options}") #chromedriver request
     :hackney.request(type, url, headers, body, [:with_body | http_options()])
     |> handle_response({url, path, type}, options)
   end
 
   defp handle_response({:ok, code, headers, body}, {url, path, type}, options) do
+    IO.puts("the params #{inspect body}, the code #{inspect code} the options #{inspect options}") #chromedriver response
     case Hound.ResponseParser.parse(response_parser(), path, code, headers, body) do
       :error ->
         raise """
